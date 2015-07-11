@@ -28,8 +28,8 @@ module.exports = (robot) ->
       ks.push key
     ks
 
-  robot.respond /tabetai open (.*)/i, (msg) ->
-    target = msg.match[1]
+  robot.respond /tabetai open( (.*))?/i, (msg) ->
+    target = if msg.match[1] then msg.match[2] else "pizza"
     creater = msg.message.user.name
     if robot.brain.data.tabetai[target]
       msg.send "#{target} already exists."
@@ -39,8 +39,8 @@ module.exports = (robot) ->
       }
       msg.send "new tabetai \"#{target}\""
   
-  robot.respond /tabetai close (.*)/i, (msg) ->
-    target = msg.match[1]
+  robot.respond /tabetai close( (.*))?/i, (msg) ->
+    target = if msg.match[1] then msg.match[2] else "pizza"
     if not robot.brain.data.tabetai[target]
       msg.send "#{target} does not exist."
     else
@@ -48,8 +48,8 @@ module.exports = (robot) ->
       delete robot.brain.data.tabetai[target]
       msg.send "closed tabetai \"#{target}\" (#{members})"
 
-  robot.respond /tabetai join (.*)/i, (msg) ->
-    target = msg.match[1]
+  robot.respond /tabetai join( (.*))?/i, (msg) ->
+    target = if msg.match[1] then msg.match[2] else "pizza"
     member = msg.message.user.name
     if not robot.brain.data.tabetai[target]
       msg.send "#{target} does not exist now."
@@ -59,8 +59,8 @@ module.exports = (robot) ->
       robot.brain.data.tabetai[target].members.push member
       msg.send "#{member} joined #{target}"
 
-  robot.respond /tabetai cancel (.*)/i, (msg) ->
-    target = msg.match[1]
+  robot.respond /tabetai cancel( (.*))?/i, (msg) ->
+    target = if msg.match[1] then msg.match[2] else "pizza"
     member = msg.message.user.name
     if not robot.brain.data.tabetai[target]
       msg.send "#{target} does not exist."
@@ -74,8 +74,8 @@ module.exports = (robot) ->
   robot.respond /tabetai list/i, (msg) ->
     msg.send join_contents(keys(robot.brain.data.tabetai), "tabetai", "tabetaies")
 
-  robot.respond /tabetai members (.*)/i, (msg) ->
-    target = msg.match[1]
+  robot.respond /tabetai members( (.*))?/i, (msg) ->
+    target = if msg.match[1] then msg.match[2] else "pizza"
     if not robot.brain.data.tabetai[target]
       msg.send "#{target} does not exist."
     else
